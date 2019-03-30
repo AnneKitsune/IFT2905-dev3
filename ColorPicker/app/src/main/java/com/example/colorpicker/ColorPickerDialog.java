@@ -43,6 +43,14 @@ class ColorPickerDialog extends AlertDialog {
     // Représentation/stockage interne de la couleur présentement sélectionnée par le Dialog.
     private int r, g, b;
 
+    // ajouté par Raouf
+    private OnColorPickedListener onColorPickedListener;
+
+    private ColorPickerCallback callback;
+
+    private View picked_color;
+
+
     ColorPickerDialog(Context context) {
         super(context);
         init(context);
@@ -56,6 +64,13 @@ class ColorPickerDialog extends AlertDialog {
     ColorPickerDialog(Context context, int themeResId) {
         super(context, themeResId);
         init(context);
+    }
+
+
+    // ajouté par Raouf
+    public interface ColorPickerCallback{
+
+        void onColorSelected(@ColorInt int color);
     }
 
     private void init(Context context){
@@ -74,8 +89,11 @@ class ColorPickerDialog extends AlertDialog {
         // Exemple pour afficher un gradient SV centré sur du rouge pur.
         saturationValueGradient.setColor(Color.RED);
 
+
         // Default color
         setColor(getContext().getColor(R.color.defaultColor));
+
+
 
         // Coded by Hojun
         setTitle("Chosir une couleur");
@@ -129,6 +147,9 @@ class ColorPickerDialog extends AlertDialog {
 
             }
         });
+
+        // ajouté par Raouf
+        picked_color = v.findViewById(R.id.picked_color);
 
         seekBarR = v.findViewById(R.id.seekR);
         seekBarG = v.findViewById(R.id.seekG);
@@ -187,6 +208,10 @@ class ColorPickerDialog extends AlertDialog {
 
 
     }
+
+    // ajouté par Raouf
+    public void setCallback(ColorPickerCallback listener){callback = listener; }
+
 
 
     @ColorInt int getColor(){
@@ -299,6 +324,8 @@ class ColorPickerDialog extends AlertDialog {
          * lorsque le bouton "ok" du dialog sera cliqué.
          * */
 
+        //ajouté par Raouf
+        this.onColorPickedListener = onColorPickedListener;
 
 
 
