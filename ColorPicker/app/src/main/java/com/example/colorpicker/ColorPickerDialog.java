@@ -96,22 +96,22 @@ class ColorPickerDialog extends AlertDialog {
 
 
         // Coded by Hojun
-        setTitle("Chosir une couleur");
-        setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+        setTitle(getContext().getString(R.string.pick_color));
+        setButton(AlertDialog.BUTTON_POSITIVE, getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                setOnColorPickedListener(onColorPickedlistener);
+                onColorPickedListener.onColorPicked(getColor());
             }
         });
-        setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL", new DialogInterface.OnClickListener() {
+        setButton(AlertDialog.BUTTON_NEGATIVE, getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
             }
         });
 
-// je regarde cette link :
-// https://stackoverflow.com/questions/4342757/how-to-make-a-color-gradient-in-a-seekbar?fbclid=IwAR0lYWflv2H9bGI5WR0ibqwmx-X5m9iCRliuyB_JoSK81Zur8ESh5bV5iEM
+        // je regarde cette link :
+        // https://stackoverflow.com/questions/4342757/how-to-make-a-color-gradient-in-a-seekbar?fbclid=IwAR0lYWflv2H9bGI5WR0ibqwmx-X5m9iCRliuyB_JoSK81Zur8ESh5bV5iEM
         int[] rainbowColors = {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE, Color.RED};
         LinearGradient linearGradient =
                 new LinearGradient(0,0,900,0, rainbowColors, null, Shader.TileMode.CLAMP);
@@ -319,19 +319,11 @@ class ColorPickerDialog extends AlertDialog {
     }
 
     public void setOnColorPickedListener(OnColorPickedListener onColorPickedListener) {
-        /* IMPLÉMENTER CETTE MÉTHODE
-         * Elle doit enregistrer un "OnColorPickedListener", qui sera appelé, éventuellement,
-         * lorsque le bouton "ok" du dialog sera cliqué.
-         * */
-
         //ajouté par Raouf
         this.onColorPickedListener = onColorPickedListener;
-
-
-
     }
 
     public interface OnColorPickedListener{
-        void onColorPicked(ColorPickerDialog colorPickerDialog, @ColorInt int color);
+        void onColorPicked(@ColorInt int color);
     }
 }

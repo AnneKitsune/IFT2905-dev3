@@ -2,6 +2,8 @@
     <string name="app_name">Color Picker</string>
     <string name="picked_color">Couleur choisie</string>
     <string name="pick_color">Choisir une couleur</string>
+    <string name="ok">OK</string>
+    <string name="cancel">CANCEL</string>
 
     <string name="hsv">HSV</string>
     <string name="rgb">RGB</string>
