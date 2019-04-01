@@ -1,22 +1,17 @@
-package com.example.colorpicker;
+package com.example.colorpicker.activities;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+
+import com.example.colorpicker.R;
+import com.example.colorpicker.components.ColorPickerDialog;
 
 public class MainActivity extends AppCompatActivity {
-
-//    AlertDialog builder;
     private View picked_color;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /* CETTE MÉTHODE DEVRA ÊTRE MODIFIÉE */
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -30,9 +25,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         findViewById(R.id.button_pick).setOnClickListener((View v) -> dialog.show());
-
-
     }
 }

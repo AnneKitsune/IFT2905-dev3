@@ -1,4 +1,4 @@
-package com.example.colorpicker.Views;
+package com.example.colorpicker.components;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

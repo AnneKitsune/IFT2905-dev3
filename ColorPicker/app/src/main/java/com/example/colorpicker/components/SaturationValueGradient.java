@@ -1,4 +1,4 @@
-package com.example.colorpicker;
+package com.example.colorpicker.components;
 
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
