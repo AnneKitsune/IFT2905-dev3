@@ -80,11 +80,14 @@ class ColorPickerDialog extends AlertDialog {
         seekSV.setOnPickedListener(new AreaPicker.OnPickedListener() {
             @Override
             public void onPicked(AreaPicker areaPicker, int x, int y, boolean fromUser) {
-                int[] rgb = HSVtoRGB(seekBarH.getProgress(), x, y);
-                r = rgb[0];
-                g = rgb[1];
-                b = rgb[2];
-                updateRGB();
+                if(fromUser){
+                    System.out.println("on picked from user");
+                    int[] rgb = HSVtoRGB(seekBarH.getProgress(), x, y);
+                    r = rgb[0];
+                    g = rgb[1];
+                    b = rgb[2];
+                    updateRGB();
+                }
             }
         });
 
@@ -120,12 +123,14 @@ class ColorPickerDialog extends AlertDialog {
         seekBarH.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int[] rgb = HSVtoRGB(seekBar.getProgress(), seekSV.getPickedX(), seekSV.getPickedY());
-                r = rgb[0];
-                g = rgb[1];
-                b = rgb[2];
-                System.out.println("ryys "+seekBar.getProgress()+","+seekSV.getPickedX()+" rgb "+r+","+g+","+b);
-                updateRGB();
+                if(fromUser) {
+                    int[] rgb = HSVtoRGB(seekBar.getProgress(), MAX_SV_VALUE, MAX_SV_VALUE);
+                    r = rgb[0];
+                    g = rgb[1];
+                    b = rgb[2];
+                    System.out.println("ryys " + seekBar.getProgress() + "," + seekSV.getPickedX() + " rgb " + r + "," + g + "," + b);
+                    updateRGB();
+                }
             }
 
             @Override
@@ -150,8 +155,7 @@ class ColorPickerDialog extends AlertDialog {
         seekBarR.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                r = progress;
-                updateHSV();
+
             }
 
             @Override
@@ -159,15 +163,15 @@ class ColorPickerDialog extends AlertDialog {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                r = seekBar.getProgress();
+                updateHSV();
             }
         });
 
         seekBarG.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                g = progress;
-                updateHSV();
+
             }
 
             @Override
@@ -175,15 +179,15 @@ class ColorPickerDialog extends AlertDialog {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                g = seekBar.getProgress();
+                updateHSV();
             }
         });
 
         seekBarB.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                b = progress;
-                updateHSV();
+
             }
 
             @Override
@@ -191,7 +195,8 @@ class ColorPickerDialog extends AlertDialog {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                b = seekBar.getProgress();
+                updateHSV();
             }
         });
 
@@ -212,6 +217,13 @@ class ColorPickerDialog extends AlertDialog {
         seekBarR.setProgress(r);
         seekBarG.setProgress(g);
         seekBarB.setProgress(b);
+
+        // Ignore SV values for the gradient
+        float max = Math.max(Math.max(r,g), b);
+        int _r = (int)((1 - (max - r)) * max);
+        int _g = (int)((1 - (max - g)) * max);
+        int _b = (int)((1 - (max - b)) * max);
+        saturationValueGradient.setColor(Color.rgb(_r,_g,_b));
     }
 
     public void setGradientColors(int[] rainbowColors) {

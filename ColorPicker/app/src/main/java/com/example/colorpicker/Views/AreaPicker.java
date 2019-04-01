@@ -95,12 +95,14 @@ public class AreaPicker extends View {
 
     public void setPickedX(int newX){
         /* IMPLÉMENTER CETTE MÉTHODE */
-        this.x = newX;
+        this.x = newX / maxX;
+        onChange(false);
     }
 
     public void setPickedY(int newY){
         /* IMPLÉMENTER CETTE MÉTHODE */
-        this.y = newY;
+        this.y = newY / maxY;
+        onChange(false);
     }
 
     // Cette fonction doit être appelée immédiatement après que la coordonnée
