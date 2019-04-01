@@ -10,7 +10,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
 //    AlertDialog builder;
-
+    private View picked_color;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +20,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        picked_color = findViewById(R.id.picked_color);
+
         ColorPickerDialog dialog = new ColorPickerDialog(this);
+        dialog.setOnColorPickedListener(new ColorPickerDialog.OnColorPickedListener() {
+            @Override
+            public void onColorPicked(int color) {
+                picked_color.setBackgroundColor(color);
+            }
+        });
 
 
         findViewById(R.id.button_pick).setOnClickListener((View v) -> dialog.show());
