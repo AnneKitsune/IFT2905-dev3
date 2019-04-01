@@ -21,7 +21,7 @@ public class AreaPicker extends View {
     private static int thumbRadius, padding;
     private Paint thumb_paint;
 
-    private float x, y;
+    private float x, y, maxX, maxY;
 
     public AreaPicker(Context context) {
         super(context);
@@ -76,21 +76,21 @@ public class AreaPicker extends View {
     }
 
     public void setMaxX(int newMaxX){
-        /* IMPLÉMENTER CETTE MÉTHODE */
+        maxX = newMaxX;
     }
 
     public void setMaxY(int newMaxY){
-        /* IMPLÉMENTER CETTE MÉTHODE */
+        maxY = newMaxY;
     }
 
     public int getPickedX(){
         /* IMPLÉMENTER CETTE MÉTHODE */
-        return (int) x;
+        return (int) (x * maxX);
     }
 
     public int getPickedY(){
         /* IMPLÉMENTER CETTE MÉTHODE */
-        return (int) y;
+        return (int) (y * maxY);
     }
 
     public void setPickedX(int newX){

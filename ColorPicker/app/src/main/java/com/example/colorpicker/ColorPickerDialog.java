@@ -73,6 +73,8 @@ class ColorPickerDialog extends AlertDialog {
 
         // Initialize SV gradient
         seekSV = v.findViewById(R.id.seekSV);
+        seekSV.setMaxX(MAX_SV_VALUE);
+        seekSV.setMaxY(MAX_SV_VALUE);
         saturationValueGradient = new SaturationValueGradient();
         seekSV.setInsetDrawable(saturationValueGradient);
         seekSV.setOnPickedListener(new AreaPicker.OnPickedListener() {
@@ -82,7 +84,7 @@ class ColorPickerDialog extends AlertDialog {
                 r = rgb[0];
                 g = rgb[1];
                 b = rgb[2];
-                updateGradients();
+                updateRGB();
             }
         });
 
@@ -118,7 +120,12 @@ class ColorPickerDialog extends AlertDialog {
         seekBarH.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
+                int[] rgb = HSVtoRGB(seekBar.getProgress(), seekSV.getPickedX(), seekSV.getPickedY());
+                r = rgb[0];
+                g = rgb[1];
+                b = rgb[2];
+                System.out.println("ryys "+seekBar.getProgress()+","+seekSV.getPickedX()+" rgb "+r+","+g+","+b);
+                updateRGB();
             }
 
             @Override
@@ -128,12 +135,7 @@ class ColorPickerDialog extends AlertDialog {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                int[] rgb = HSVtoRGB(seekBar.getProgress(), seekSV.getPickedX(), seekSV.getPickedY());
-                r = rgb[0];
-                g = rgb[1];
-                b = rgb[2];
-                System.out.println("ryys "+seekBar.getProgress()+","+seekSV.getPickedX()+" rgb "+r+","+g+","+b);
-                updateGradients();
+
             }
         });
 
@@ -148,7 +150,8 @@ class ColorPickerDialog extends AlertDialog {
         seekBarR.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
+                r = progress;
+                updateHSV();
             }
 
             @Override
@@ -156,15 +159,15 @@ class ColorPickerDialog extends AlertDialog {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                r = seekBar.getProgress();
-                updateGradients();
+
             }
         });
 
         seekBarG.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
+                g = progress;
+                updateHSV();
             }
 
             @Override
@@ -172,15 +175,15 @@ class ColorPickerDialog extends AlertDialog {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                g = seekBar.getProgress();
-                updateGradients();
+
             }
         });
 
         seekBarB.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
+                b = progress;
+                updateHSV();
             }
 
             @Override
@@ -188,8 +191,7 @@ class ColorPickerDialog extends AlertDialog {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                b = seekBar.getProgress();
-                updateGradients();
+
             }
         });
 
@@ -197,13 +199,16 @@ class ColorPickerDialog extends AlertDialog {
 
     }
 
-    public void updateGradients() {
+    public void updateHSV() {
         int[] hsv = RGBtoHSV(r, g, b);
         System.out.println("Updating gradient. rgb = "+r+","+g+","+b+","+hsv[0]+","+hsv[1]+","+hsv[2]);
         saturationValueGradient.setColor(Color.rgb(r,g,b));
         seekBarH.setProgress(hsv[0]);
         seekSV.setPickedX(hsv[1]);
         seekSV.setPickedX(hsv[2]);
+    }
+
+    public void updateRGB() {
         seekBarR.setProgress(r);
         seekBarG.setProgress(g);
         seekBarB.setProgress(b);
